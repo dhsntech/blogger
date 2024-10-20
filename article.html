@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自動加載 Markdown 文件</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        main {
+            max-width: 1000px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: auto; /* 置中 */
+            border-radius: 10px; /* 圓角效果 */
+        }
+         img {
+            max-width: 900px;
+            padding: 3px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: auto; /* 置中 */
+            border-radius: 10px; /* 圓角效果 */
+        }
+        h1 {
+            text-align: center;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
+</head>
+<body>
+
+<main>
+    <h1>我的部落格</h1>
+    <div id="content">Loading...</div>
+</main>
+
+<script>
+    const md = window.markdownit();
+
+    // 從 URL 中獲取 markdown 文件名的參數
+    const urlParams = new URLSearchParams(window.location.search);
+    const fileName = urlParams.get('file') || 'default.md'; // 如果沒有提供 file 參數，默認加載 default.md
+
+    // 使用 Fetch API 加載指定的 markdown 文件
+    fetch(fileName)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+            return response.text();
+        })
+        .then(text => {
+            document.getElementById('content').innerHTML = md.render(text);
+        })
+        .catch(error => {
+            document.getElementById('content').innerHTML = 'Error loading markdown file.';
+            console.error('Error loading markdown file:', error);
+        });
+</script>
+
+</body>
+</html>
