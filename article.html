@@ -46,8 +46,9 @@
     const urlParams = new URLSearchParams(window.location.search);
     const fileParam = urlParams.get('file');
 
-    // 解碼 URL 中的文件名，如果沒有則默認使用 default.md
-    const fileName = fileParam ? decodeURIComponent(fileParam) : 'default.md';
+    // 解碼 URL 中的文件名，並忽略大小寫問題和自動添加 .md
+    let fileName = fileParam ? decodeURIComponent(fileParam).toLowerCase() : 'default';
+    fileName = fileName.endsWith('.md') ? fileName : fileName + '.md'; // 自動加上 .md 副檔名
 
     // 使用 Fetch API 加載指定的 markdown 文件
     fetch(fileName)
