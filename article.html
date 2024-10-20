@@ -42,9 +42,12 @@
 <script>
     const md = window.markdownit();
 
-    // 從 URL 中獲取 markdown 文件名的參數
+    // 從 URL 中獲取並解碼 markdown 文件名的參數
     const urlParams = new URLSearchParams(window.location.search);
-    const fileName = urlParams.get('file') || 'default.md'; // 如果沒有提供 file 參數，默認加載 default.md
+    const fileParam = urlParams.get('file');
+
+    // 解碼 URL 中的文件名，如果沒有則默認使用 default.md
+    const fileName = fileParam ? decodeURIComponent(fileParam) : 'default.md';
 
     // 使用 Fetch API 加載指定的 markdown 文件
     fetch(fileName)
