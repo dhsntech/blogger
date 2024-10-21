@@ -4,61 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的部落格</title>
-    <link rel="stylesheet" href="index-styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>歡迎來到我的部落格</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">首頁</a></li>
-                <li><a href="#">關於我</a></li>
-                <li><a href="#">聯絡我</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <main>
-        <section id="article-list-section">
-            <h2>最新文章</h2>
-            <ul id="article-list">
-                <!-- 文章清單會自動加載在這裡 -->
-            </ul>
-        </section>
-    </main>
+<header>
+    <h1>歡迎來到我的部落格</h1>
+    <nav>
+        <ul>
+            <li><a href="index.html">首頁</a></li>
+            <li><a href="#">關於我</a></li>
+            <li><a href="#">聯絡我</a></li>
+        </ul>
+    </nav>
+</header>
 
-    <footer>
-        <p>&copy; 2024 我的部落格. 保留所有權利.</p>
-    </footer>
+<main>
+    <section id="article-list-section">
+        <h2>最新文章</h2>
+        <ul id="article-list">
+            <!-- 文章清單會自動加載在這裡 -->
+        </ul>
+    </section>
+</main>
 
-    <script>
+<footer>
+    <p class="footer-text">SNTH版權所有</p>
+</footer>
 
-// Fetch articles from the JSON file and display them on the page
-fetch('articles.json')
-    .then(response => response.json())
-    .then(articles => {
-        const list = document.getElementById('article-list');
-        articles.forEach(article => {
-            const listItem = document.createElement('li');
-
-            // 生成文章連結
-            const link = document.createElement('a');
-            link.href = `/blogger/article?file=${article.title}`;
-            link.textContent = article.title;
-
-            // 生成簡介
-            const intro = document.createElement('p');
-            intro.textContent = article.intro;
-            intro.classList.add('article-intro');
-
-            // 加入到列表項目
-            listItem.appendChild(link);
-            listItem.appendChild(intro);
-            list.appendChild(listItem);
-        });
-    })
-    .catch(error => console.error('Error loading articles:', error));
-
-    </script>
+<script src="scripts.js"></script>
 </body>
 </html>
