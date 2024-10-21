@@ -1,51 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>文章標題</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .footer-text {
-            font-size: 15px;
-            bottom: 7px;
-            text-align: center;
-            padding: 10px;
-            opacity:0.5;
-        }
-    </style>
     <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 </head>
 <body>
 
+<header>
+    <h1>歡迎來到我的部落格</h1>
+    <nav>
+        <ul>
+            <li><a href="index.html">首頁</a></li>
+            <li><a href="#">關於我</a></li>
+            <li><a href="#">聯絡我</a></li>
+        </ul>
+    </nav>
+</header>
+
 <main>
-    <h1>我的部落格</h1>
+    <h1 id="article-title">文章標題</h1>
     <div id="content">Loading...</div>
 </main>
 
-            <div class="footer-text">SNTH版權所有</div>
+<footer>
+    <p class="footer-text">SNTH版權所有</p>
+</footer>
 
 <script>
     const md = window.markdownit();
 
-    // 從 URL 中獲取並解碼 markdown 文件名的參數
     const urlParams = new URLSearchParams(window.location.search);
     const fileParam = urlParams.get('file');
-
-    // 解碼 URL 中的文件名，並忽略大小寫問題和自動添加 .md
     let fileName = fileParam ? decodeURIComponent(fileParam).toLowerCase() : 'default';
-    fileName = fileName.endsWith('.md') ? fileName : fileName + '.md'; // 自動加上 .md 副檔名
+    fileName = fileName.endsWith('.md') ? fileName : fileName + '.md';
 
-    // 使用 Fetch API 加載指定的 markdown 文件
     fetch(fileName)
         .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok.');
-            }
+            if (!response.ok) throw new Error('Network response was not ok.');
             return response.text();
         })
         .then(text => {
             document.getElementById('content').innerHTML = md.render(text);
+            const title = fileParam ? fileParam.replace(/-/g, ' ') : '文章標題';
+            document.getElementById('article-title').textContent = title;
         })
         .catch(error => {
             document.getElementById('content').innerHTML = 'Error loading markdown file.';
@@ -55,4 +55,3 @@
 
 </body>
 </html>
-
