@@ -22,9 +22,9 @@
 <main>
     <section id="article-list-section">
         <h2>最新文章</h2>
-        <ul id="article-list">
-            <!-- 文章清單會自動加載在這裡 -->
-        </ul>
+        <div id="article-list">
+            <!-- 文章清單會由 JavaScript 自動生成 -->
+        </div>
     </section>
 </main>
 
@@ -33,33 +33,62 @@
 </footer>
 
 <script>
-// Fetch articles from the JSON file and display them on the page
-fetch('articles.json')
-    .then(response => response.json())
-    .then(articles => {
-        const list = document.getElementById('article-list');
-        articles.forEach(article => {
-            const listItem = document.createElement('li');
+document.addEventListener("DOMContentLoaded", () => {
+    const articles = [
+        {
+            title: "文章一",
+            intro: "這是第一篇文章的簡介。",
+            image: "path/to/image1.jpg",
+            file: "article-one"
+        },
+        {
+            title: "文章二",
+            intro: "這是第二篇文章的簡介。",
+            image: "path/to/image2.jpg",
+            file: "article-two"
+        },
+        {
+            title: "文章三",
+            intro: "這是第三篇文章的簡介。",
+            image: "path/to/image3.jpg",
+            file: "article-three"
+        }
+    ];
 
-            // 生成文章連結
-            const link = document.createElement('a');
-            link.href = `/blogger/article?file=${article.title}`;
-            link.textContent = article.title;
+    const articleList = document.getElementById("article-list");
 
-            // 生成簡介
-            const intro = document.createElement('p');
-            intro.textContent = article.intro;
-            intro.classList.add('article-intro');
+    articles.forEach(article => {
+        const articleItem = document.createElement("div");
+        articleItem.classList.add("article-item");
 
-            // 加入到列表項目
-            listItem.appendChild(link);
-            listItem.appendChild(intro);
-            list.appendChild(listItem);
-        });
-    })
-    .catch(error => console.error('Error loading articles:', error));
+        // 標題
+        const titleElement = document.createElement("h3");
+        titleElement.textContent = article.title;
+        articleItem.appendChild(titleElement);
 
-</script>
+        // 圖片
+        const imageElement = document.createElement("img");
+        imageElement.src = article.image;
+        imageElement.alt = article.title;
+        articleItem.appendChild(imageElement);
+
+        // 簡介
+        const introElement = document.createElement("p");
+        introElement.textContent = article.intro;
+        articleItem.appendChild(introElement);
+
+        // 閱讀文章按鈕
+        const readMoreButton = document.createElement("a");
+        readMoreButton.classList.add("read-more-btn");
+        readMoreButton.href = `/blogger/article?file=${article.file}`;
+        readMoreButton.textContent = "閱讀文章";
+        articleItem.appendChild(readMoreButton);
+
+        // 加入到文章列表中
+        articleList.appendChild(articleItem);
+    });
+});
+
 </script>
 </body>
 </html>
