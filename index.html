@@ -34,59 +34,52 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    const articles = [
-        {
-            title: "文章一",
-            intro: "這是第一篇文章的簡介。",
-            image: "path/to/image1.jpg",
-            file: "article-one"
-        },
-        {
-            title: "文章二",
-            intro: "這是第二篇文章的簡介。",
-            image: "path/to/image2.jpg",
-            file: "article-two"
-        },
-        {
-            title: "文章三",
-            intro: "這是第三篇文章的簡介。",
-            image: "path/to/image3.jpg",
-            file: "article-three"
-        }
-    ];
-
     const articleList = document.getElementById("article-list");
 
-    articles.forEach(article => {
-        const articleItem = document.createElement("div");
-        articleItem.classList.add("article-item");
+    // 從 articles.json 加載文章數據
+    fetch('articles.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+            return response.json();
+        })
+        .then(articles => {
+            articles.forEach(article => {
+                const articleItem = document.createElement("div");
+                articleItem.classList.add("article-item");
 
-        // 標題
-        const titleElement = document.createElement("h3");
-        titleElement.textContent = article.title;
-        articleItem.appendChild(titleElement);
+                // 標題
+                const titleElement = document.createElement("h3");
+                titleElement.textContent = article.title;
+                articleItem.appendChild(titleElement);
 
-        // 圖片
-        const imageElement = document.createElement("img");
-        imageElement.src = article.image;
-        imageElement.alt = article.title;
-        articleItem.appendChild(imageElement);
+                // 圖片
+                const imageElement = document.createElement("img");
+                imageElement.src = article.image;
+                imageElement.alt = article.title;
+                articleItem.appendChild(imageElement);
 
-        // 簡介
-        const introElement = document.createElement("p");
-        introElement.textContent = article.intro;
-        articleItem.appendChild(introElement);
+                // 簡介
+                const introElement = document.createElement("p");
+                introElement.textContent = article.intro;
+                articleItem.appendChild(introElement);
 
-        // 閱讀文章按鈕
-        const readMoreButton = document.createElement("a");
-        readMoreButton.classList.add("read-more-btn");
-        readMoreButton.href = `/blogger/article?file=${article.file}`;
-        readMoreButton.textContent = "閱讀文章";
-        articleItem.appendChild(readMoreButton);
+                // 閱讀文章按鈕
+                const readMoreButton = document.createElement("a");
+                readMoreButton.classList.add("read-more-btn");
+                readMoreButton.href = `/blogger/article?file=${article.file}`;
+                readMoreButton.textContent = "閱讀文章";
+                articleItem.appendChild(readMoreButton);
 
-        // 加入到文章列表中
-        articleList.appendChild(articleItem);
-    });
+                // 加入到文章列表中
+                articleList.appendChild(articleItem);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching the articles:', error);
+            articleList.innerHTML = '<p>無法加載文章列表，請稍後再試。</p>';
+        });
 });
 
 </script>
