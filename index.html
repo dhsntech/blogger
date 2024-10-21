@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的部落格</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="index-styles.css">
 </head>
 <body>
     <header>
@@ -31,6 +31,34 @@
         <p>&copy; 2024 我的部落格. 保留所有權利.</p>
     </footer>
 
-    <script src="scripts.js"></script>
+    <script>
+
+// Fetch articles from the JSON file and display them on the page
+fetch('articles.json')
+    .then(response => response.json())
+    .then(articles => {
+        const list = document.getElementById('article-list');
+        articles.forEach(article => {
+            const listItem = document.createElement('li');
+
+            // 生成文章連結
+            const link = document.createElement('a');
+            link.href = `/blogger/article?file=${article.title}`;
+            link.textContent = article.title;
+
+            // 生成簡介
+            const intro = document.createElement('p');
+            intro.textContent = article.intro;
+            intro.classList.add('article-intro');
+
+            // 加入到列表項目
+            listItem.appendChild(link);
+            listItem.appendChild(intro);
+            list.appendChild(listItem);
+        });
+    })
+    .catch(error => console.error('Error loading articles:', error));
+
+    </script>
 </body>
 </html>
