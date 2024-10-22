@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading...</title> <!-- 這裡的 title 會動態更新 -->
+    <title>文章標題</title> <!-- 標題會動態設置 -->
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 </head>
 <body>
 
 <header>
-    <h1>歡迎來到我的部落格</h1>
+    <h1>我的部落格</h1>
     <nav>
         <ul>
             <li><a href="index.html">首頁</a></li>
@@ -21,7 +20,17 @@
 </header>
 
 <main>
-    <div id="content">Loading...</div>
+    <article id="article-content">
+        <!-- 文章內容會由 JavaScript 自動加載 -->
+        <h2 id="article-title">文章標題</h2>
+        <img id="article-image" src="#" alt="文章圖片" style="display: none;">
+        <div id="article-intro">
+            <p>文章簡介會顯示在這裡...</p>
+        </div>
+        <div id="article-body">
+            <p>正在加載文章...</p>
+        </div>
+    </article>
 </main>
 
 <footer>
@@ -29,34 +38,56 @@
 </footer>
 
 <script>
-    const md = window.markdownit();
+// 從 URL 取得文章的 file 參數
+const params = new URLSearchParams(window.location.search);
+const articleFile = params.get('file');
 
-    // 從 URL 中獲取並解碼 markdown 文件名的參數
-    const urlParams = new URLSearchParams(window.location.search);
-    const fileParam = urlParams.get('file');
+document.addEventListener("DOMContentLoaded", () => {
+    // 如果有指定的檔案名稱，載入對應的文章
+    if (articleFile) {
+        fetch('articles.json')
+            .then(response => response.json())
+            .then(articles => {
+                const article = articles.find(a => a.file === articleFile);
 
-    // 解碼 URL 中的文件名，並忽略大小寫問題和自動添加 .md
-    let fileName = fileParam ? decodeURIComponent(fileParam).toLowerCase() : 'default';
-    fileName = fileName.endsWith('.md') ? fileName : fileName + '.md'; // 自動加上 .md 副檔名
+                if (article) {
+                    // 設置頁面標題
+                    document.title = article.title;
+                    document.getElementById("article-title").textContent = article.title;
 
-    // 動態設置頁面的標題為檔案名稱（不含副檔名）
-    document.title = fileParam ? fileParam : "文章";
+                    // 顯示文章簡介
+                    document.getElementById("article-intro").innerHTML = `<p>${article.intro}</p>`;
 
-    // 使用 Fetch API 加載指定的 markdown 文件
-    fetch(fileName)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok.');
-            }
-            return response.text();
-        })
-        .then(text => {
-            document.getElementById('content').innerHTML = md.render(text);
-        })
-        .catch(error => {
-            document.getElementById('content').innerHTML = 'Error loading markdown file.';
-            console.error('Error loading markdown file:', error);
-        });
+                    // 顯示文章圖片（如果有）
+                    if (article.image) {
+                        const articleImage = document.getElementById("article-image");
+                        articleImage.src = article.image;
+                        articleImage.alt = article.title;
+                        articleImage.style.display = "block";
+                    }
+
+                    // 加載文章正文（這裡假設每篇文章都有一個對應的 Markdown 文件）
+                    fetch(`articles/${article.file}.md`)
+                        .then(response => response.text())
+                        .then(markdown => {
+                            const md = window.markdownit();
+                            document.getElementById("article-body").innerHTML = md.render(markdown);
+                        })
+                        .catch(error => {
+                            document.getElementById("article-body").innerHTML = "<p>無法加載文章內容，請稍後再試。</p>";
+                        });
+                } else {
+                    document.getElementById("article-body").innerHTML = "<p>文章未找到。</p>";
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching the article:', error);
+                document.getElementById("article-body").innerHTML = "<p>無法加載文章內容，請稍後再試。</p>";
+            });
+    } else {
+        document.getElementById("article-body").innerHTML = "<p>未指定文章檔案。</p>";
+    }
+});
 </script>
 
 </body>
