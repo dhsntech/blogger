@@ -33,42 +33,28 @@
 </footer>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+
     const md = window.markdownit();
 
-    // 取得 URL 參數
     const urlParams = new URLSearchParams(window.location.search);
-    const fileParam = urlParams.get("file");
+    const fileParam = urlParams.get('file');
+    let fileName = fileParam ? decodeURIComponent(fileParam).toLowerCase() : 'default';
+    fileName = fileName.endsWith('.md') ? fileName : fileName + '.md';
 
-    // 檢查並設置文件名，若無參數則使用 'default.md'
-    let fileName = fileParam ? decodeURIComponent(fileParam).toLowerCase() : "default";
-    fileName = fileName.endsWith(".md") ? fileName : fileName + ".md";
-
-    console.log("Loading file:", fileName);  // 檢查文件名是否正確
-
-    // 發送 Fetch 請求加載文件
     fetch(fileName)
         .then(response => {
-            if (!response.ok) {
-                throw new Error(`Network response was not ok: ${response.statusText}`);
-            }
+            if (!response.ok) throw new Error('Network response was not ok.');
             return response.text();
         })
         .then(text => {
-            // 使用 markdown-it 渲染 markdown 內容
-            document.getElementById("content").innerHTML = md.render(text);
-
-            // 設置文章標題
-            const title = fileParam ? fileParam.replace(/-/g, " ") : "文章標題";
-            document.getElementById("article-title").textContent = title;
-            document.title = title; // 更新頁面標題
+            document.getElementById('content').innerHTML = md.render(text);
+            const title = fileParam ? fileParam.replace(/-/g, ' ') : '文章標題';
+            document.getElementById('article-title').textContent = title;
         })
         .catch(error => {
-            // 如果文件加載失敗，顯示錯誤信息
-            document.getElementById("content").innerHTML = "無法加載文章內容。";
-            console.error("Error loading markdown file:", error);
+            document.getElementById('content').innerHTML = 'Error loading markdown file.';
+            console.error('Error loading markdown file:', error);
         });
-});
 
 </script>
 
