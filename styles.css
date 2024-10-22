@@ -1,31 +1,33 @@
-
+/* 全局樣式 */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    font-family: 'Noto Sans TC', sans-serif; /* 新增：使用自定義字體 */
+    background-color: #f9f9f9; /* 新增：背景顏色 */
+    color: #333; /* 保留：文字顏色 */
     margin: 0;
-    padding: 0;
+    padding: 20px;
+    line-height: 1.6; /* 新增：統一行高 */
 }
 
+/* 頁面標題 */
 header {
-    background-color: #f1f1f1;
-    padding: 20px 0;
-    border-bottom: 1px solid #ddd;
+    background-color: #3498db; /* 保留：頂部導航樣式 */
+    padding: 10px;
     text-align: center;
+    color: white;
 }
 
 header h1 {
-    font-size: 2.5em;
     margin: 0;
-    font-weight: bold;
-    color: #333;
+    font-size: 2.5em;
 }
 
+/* 導航菜單 */
 nav ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
     display: flex;
     justify-content: center;
-    margin: 10px 0 0;
+    margin: 0;
 }
 
 nav ul li {
@@ -33,9 +35,8 @@ nav ul li {
 }
 
 nav ul li a {
+    color: white;
     text-decoration: none;
-    font-weight: bold;
-    color: #007bff;
     font-size: 1.2em;
 }
 
@@ -43,101 +44,129 @@ nav ul li a:hover {
     text-decoration: underline;
 }
 
-/* 首頁文章列表 */
-main {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-}
-
-#article-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-.article-item {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    transition: transform 0.2s;
-}
-
-.article-item:hover {
-    transform: translateY(-5px);
-}
-
-.article-item img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
-}
-
-.article-item h3 {
-    font-size: 1.5em;
-    color: #333;
-    margin: 15px 0 10px;
-}
-
-.article-item p {
-    color: #555;
-    font-size: 1em;
-    line-height: 1.6;
-    margin-bottom: 15px;
-}
-
-.read-more-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 1em;
-}
-
-.read-more-btn:hover {
-    background-color: #0056b3;
-}
-
-article {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-}
-
-article h2 {
+/* 文章標題 */
+article h2#article-title {
     font-size: 2em;
-    color: #333;
-    margin-bottom: 20px;
+    margin-bottom: 0.5em;
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db; /* 新增：標題下劃線 */
+    padding-bottom: 0.3em;
 }
 
-article #content {
-    color: #555;
-    line-height: 1.8;
-    font-size: 1.1em;
-}
+/* 文章內容美化 - Markdown 相關樣式 */
 
-footer {
-    background-color: #f1f1f1;
-    padding: 20px 0;
-    text-align: center;
-    border-top: 1px solid #ddd;
-    margin-top: 20px;
-}
 
-.footer-text {
-    font-size: 14px;
-    color: #999;
-}
-
+/* 圖片、嵌入樣式 */
 img,iframe {
     max-width: 100%;
     height: auto;
     border-radius: 5px;
 }
+
+
+/* 段落樣式 */
+p {
+    margin: 1em 0;
+    font-size: 1.1em;
+    color: #333; /* 保留段落樣式 */
+}
+
+/* 標題美化 */
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+    color: #2c3e50; /* 新增：標題色彩 */
+}
+
+h1 { font-size: 2.5em; }
+h2 { font-size: 2em; }
+h3 { font-size: 1.75em; }
+h4 { font-size: 1.5em; }
+h5 { font-size: 1.25em; }
+h6 { font-size: 1em; }
+
+/* 區塊引用 (blockquote) 美化 */
+blockquote {
+    margin: 1.5em 0;
+    padding: 0.5em 10px;
+    background-color: #e9f7fd; /* 新增：背景顏色 */
+    border-left: 5px solid #3498db; /* 新增：左邊線條 */
+    color: #555;
+    font-style: italic; /* 新增：斜體字 */
+}
+
+/* 清單樣式 */
+ul, ol {
+    margin: 1em 0;
+    padding-left: 20px;
+}
+
+ul li, ol li {
+    margin-bottom: 0.5em;
+}
+
+/* 代碼區塊 */
+pre {
+    background-color: #2d2d2d; /* 新增：深色背景 */
+    color: #f8f8f2; /* 新增：代碼文字顏色 */
+    padding: 1em;
+    border-radius: 5px; /* 新增：圓角 */
+    overflow-x: auto; /* 新增：橫向滾動 */
+}
+
+code {
+    background-color: #f1f1f1; /* 新增：行內代碼背景 */
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+/* 鏈接樣式 */
+a {
+    color: #3498db; /* 保留鏈接顏色 */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* 表格樣式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+    border: 1px solid #ddd;
+    border-radius: 5px; /* 新增：圓角 */
+}
+
+table, th, td {
+    padding: 8px;
+}
+
+th {
+    background-color: #3498db; /* 新增：表頭背景色 */
+    color: white;
+    font-weight: bold;
+}
+
+td {
+    text-align: left;
+}
+
+/* 頁腳 */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+footer p {
+    margin: 0;
+}
+
