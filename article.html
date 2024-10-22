@@ -33,52 +33,40 @@
 </footer>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const articleList = document.getElementById("article-list");
+document.addEventListener("DOMContentLoaded", function () {
+    const md = window.markdownit();
 
-    // 從 articles.json 加載文章數據
-    fetch('articles.json')
+    // 取得 URL 參數
+    const urlParams = new URLSearchParams(window.location.search);
+    const fileParam = urlParams.get("file");
+
+    // 檢查並設置文件名，若無參數則使用 'default.md'
+    let fileName = fileParam ? decodeURIComponent(fileParam).toLowerCase() : "default";
+    fileName = fileName.endsWith(".md") ? fileName : fileName + ".md";
+
+    console.log("Loading file:", fileName);  // 檢查文件名是否正確
+
+    // 發送 Fetch 請求加載文件
+    fetch(fileName)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok.');
+                throw new Error(`Network response was not ok: ${response.statusText}`);
             }
-            return response.json();
+            return response.text();
         })
-        .then(articles => {
-            articles.forEach(article => {
-                const articleItem = document.createElement("div");
-                articleItem.classList.add("article-item");
+        .then(text => {
+            // 使用 markdown-it 渲染 markdown 內容
+            document.getElementById("content").innerHTML = md.render(text);
 
-                // 標題
-                const titleElement = document.createElement("h3");
-                titleElement.textContent = article.title;
-                articleItem.appendChild(titleElement);
-
-                // 圖片
-                const imageElement = document.createElement("img");
-                imageElement.src = article.image;
-                imageElement.alt = article.title;
-                articleItem.appendChild(imageElement);
-
-                // 簡介
-                const introElement = document.createElement("p");
-                introElement.textContent = article.intro;
-                articleItem.appendChild(introElement);
-
-                // 閱讀文章按鈕
-                const readMoreButton = document.createElement("a");
-                readMoreButton.classList.add("read-more-btn");
-                readMoreButton.href = /blogger/article?file=${article.file};
-                readMoreButton.textContent = "閱讀文章";
-                articleItem.appendChild(readMoreButton);
-
-                // 加入到文章列表中
-                articleList.appendChild(articleItem);
-            });
+            // 設置文章標題
+            const title = fileParam ? fileParam.replace(/-/g, " ") : "文章標題";
+            document.getElementById("article-title").textContent = title;
+            document.title = title; // 更新頁面標題
         })
         .catch(error => {
-            console.error('Error fetching the articles:', error);
-            articleList.innerHTML = '<p>無法加載文章列表，請稍後再試。</p>';
+            // 如果文件加載失敗，顯示錯誤信息
+            document.getElementById("content").innerHTML = "無法加載文章內容。";
+            console.error("Error loading markdown file:", error);
         });
 });
 
