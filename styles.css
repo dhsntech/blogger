@@ -176,28 +176,29 @@ article li {
     margin-bottom: 0.5em; /* 下邊距 */
 }
 
-/* 代碼塊樣式 */
+/* 區塊代碼樣式（用三個反引號包起來的代碼塊） */
 article pre {
-    background-color: #f4f4f4; /* 背景色 */
-    padding: 15px; /* 內邊距 */
-    border-radius: 6px; /* 圓角 */
-    overflow-x: auto; /* 溢出顯示 */
-    white-space: pre-wrap; /* 保留換行 */
-    border: 1px solid #ddd; /* 邊框以增加可視性 */
-    color: #333; /* 字體顏色 */
-    font-family: monospace; /* 等寬字體 */
+    background-color: #f7f7f7;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: monospace;
+    color: #333;
+    border: 1px solid #ddd;
+    white-space: pre; /* 僅保留人工換行，不自動換行 */
+    overflow-x: auto; /* 超出寬度的部分會滾動顯示 */
+    word-wrap: normal; /* 不自動換行 */
 }
 
 /* 行內代碼樣式 */
 article code {
-    background-color: #e8e8e8; /* 背景色 */
-    padding: 2px 5px; /* 內邊距 */
-    border-radius: 4px; /* 圓角 */
-    font-family: monospace; /* 等寬字體 */
-    color: #c7254e; /* 字體顏色 */
-    border: 1px solid #ddd; /* 邊框 */
-    white-space: nowrap; /* 禁止換行 */
-    display: inline-block; /* 保證行內顯示 */
+    background-color: #e8e8e8;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-family: monospace;
+    color: #c7254e;
+    border: 1px solid #ddd;
+    white-space: pre-wrap; /* 保留空格與手動換行 */
+    display: inline; /* 行內顯示 */
 }
 
 /* 改善代碼塊與行內代碼之間的區別 */
