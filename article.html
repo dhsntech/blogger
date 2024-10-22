@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文章標題</title>
+    <title>Loading...</title> <!-- 這裡的 title 會動態更新 -->
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 </head>
@@ -21,7 +21,6 @@
 </header>
 
 <main>
-    <h1 id="article-title">文章標題</h1>
     <div id="content">Loading...</div>
 </main>
 
@@ -32,20 +31,27 @@
 <script>
     const md = window.markdownit();
 
+    // 從 URL 中獲取並解碼 markdown 文件名的參數
     const urlParams = new URLSearchParams(window.location.search);
     const fileParam = urlParams.get('file');
-    let fileName = fileParam ? decodeURIComponent(fileParam).toLowerCase() : 'default';
-    fileName = fileName.endsWith('.md') ? fileName : fileName + '.md';
 
+    // 解碼 URL 中的文件名，並忽略大小寫問題和自動添加 .md
+    let fileName = fileParam ? decodeURIComponent(fileParam).toLowerCase() : 'default';
+    fileName = fileName.endsWith('.md') ? fileName : fileName + '.md'; // 自動加上 .md 副檔名
+
+    // 動態設置頁面的標題為檔案名稱（不含副檔名）
+    document.title = fileParam ? fileParam : "文章";
+
+    // 使用 Fetch API 加載指定的 markdown 文件
     fetch(fileName)
         .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok.');
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
             return response.text();
         })
         .then(text => {
             document.getElementById('content').innerHTML = md.render(text);
-            const title = fileParam ? fileParam.replace(/-/g, ' ') : '文章標題';
-            document.getElementById('article-title').textContent = title;
         })
         .catch(error => {
             document.getElementById('content').innerHTML = 'Error loading markdown file.';
