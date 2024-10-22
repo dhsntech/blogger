@@ -32,7 +32,7 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOMContentLoaded 事件觸發");  // 確認 DOM 完成
+    console.log("DOMContentLoaded 事件觸發");
 
     const md = window.markdownit();
     const urlParams = new URLSearchParams(window.location.search);
@@ -40,24 +40,20 @@ document.addEventListener("DOMContentLoaded", () => {
     let fileName = fileParam ? decodeURIComponent(fileParam).toLowerCase() : 'default';
     fileName = fileName.endsWith('.md') ? fileName : fileName + '.md';
 
-    console.log("將要加載的檔案名稱:", fileName);  // 確認檔案名稱
+    console.log("將要加載的檔案名稱:", fileName);
 
     fetch(fileName)
         .then(response => {
-            console.log("Fetch 請求成功:", response.ok);  // 確認 Fetch 是否成功
+            console.log("Fetch 請求成功:", response.ok);
             if (!response.ok) {
                 throw new Error('Network response was not ok.');
             }
             return response.text();
         })
         .then(text => {
-            console.log("Markdown 內容成功加載");  // 確認內容是否成功加載
+            console.log("Markdown 內容成功加載");
             document.getElementById('content').innerHTML = md.render(text);
-
-            // 設置文章標題
-            const title = fileParam ? fileParam.replace(/-/g, ' ') : '文章標題';
-            document.getElementById('article-title').textContent = title;
-            document.title = title;  // 動態設置頁面標題
+            // 這裡已移除設定文章標題的部分
         })
         .catch(error => {
             document.getElementById('content').innerHTML = '無法加載文章內容。';
