@@ -134,6 +134,7 @@ footer {
     font-size: 15px;
     opacity: 0.5;
 }
+
 #article-list {
     display: flex;
     flex-direction: column;
