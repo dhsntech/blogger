@@ -40,13 +40,17 @@
         const urlParams = new URLSearchParams(window.location.search);
         const fileParam = urlParams.get('file');
 
-        // 根據 fileParam 設置文件名，如果沒有指定，則默認加載 default.md
+        // 檢查 fileParam 是否存在，然後設置文件名
         let fileName = fileParam ? decodeURIComponent(fileParam) : 'default';
         fileName = fileName.endsWith('.md') ? fileName : fileName + '.md';
+
+        // 測試是否正確獲取到文件名
+        console.log("Loading file:", fileName);
 
         // 請求對應的 markdown 文件
         fetch(fileName)
             .then(response => {
+                console.log("Response status:", response.status); // 檢查狀態碼
                 if (!response.ok) {
                     throw new Error('Network response was not ok.');
                 }
@@ -67,6 +71,7 @@
             });
     });
 </script>
+
 
 </body>
 </html>
