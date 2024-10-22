@@ -1,4 +1,4 @@
-/* 通用樣式 */
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
@@ -102,7 +102,6 @@ main {
     background-color: #0056b3;
 }
 
-/* 文章頁面 */
 article {
     max-width: 900px;
     margin: 40px auto;
@@ -135,4 +134,10 @@ footer {
 .footer-text {
     font-size: 14px;
     color: #999;
+}
+
+img,iframe {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
 }
