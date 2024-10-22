@@ -1,7 +1,7 @@
-
 <!DOCTYPE html>
-<html lang="zh-TW"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/12.3.2/markdown-it.min.js"></script>
@@ -9,19 +9,16 @@
 <body>
 
 <header>
-    <h1>歡迎來到我的部落格</h1>
-    <nav>
-        <ul>
-            <li><a href="https://dhsntech.github.io/blogger/index.html">首頁</a></li>
-            <li><a href="#">關於我</a></li>
-        </ul>
-    </nav>
+    <h1>SNTH科技部落格</h1>
 </header>
 
 <main>
+    <article>
+        <h2 id="article-title">文章標題</h2>
         <div id="content">
-            正在加載文章...
+            正在加載文章內容...
         </div>
+    </article>
 </main>
 
 <footer>
@@ -30,27 +27,30 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    const md = window.markdownit();
+    console.log("DOMContentLoaded 事件觸發");  // 確認 DOM 完成
 
+    const md = window.markdownit();
     const urlParams = new URLSearchParams(window.location.search);
     const fileParam = urlParams.get('file');
     let fileName = fileParam ? decodeURIComponent(fileParam).toLowerCase() : 'default';
     fileName = fileName.endsWith('.md') ? fileName : fileName + '.md';
 
-    console.log('正在加載檔案:', fileName);  // 確認檔案名稱
+    console.log("將要加載的檔案名稱:", fileName);  // 確認檔案名稱
 
     fetch(fileName)
         .then(response => {
+            console.log("Fetch 請求成功:", response.ok);  // 確認 Fetch 是否成功
             if (!response.ok) {
                 throw new Error('Network response was not ok.');
             }
             return response.text();
         })
         .then(text => {
+            console.log("Markdown 內容成功加載");  // 確認內容是否成功加載
             document.getElementById('content').innerHTML = md.render(text);
 
             // 設置文章標題
-            const title = fileParam ? fileParam.replace(/-/g, ' ') : '';
+            const title = fileParam ? fileParam.replace(/-/g, ' ') : '文章標題';
             document.getElementById('article-title').textContent = title;
             document.title = title;  // 動態設置頁面標題
         })
@@ -61,6 +61,5 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
-
-
-</body></html>
+</body>
+</html>
