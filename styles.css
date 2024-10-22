@@ -195,7 +195,9 @@ article code {
     border-radius: 4px; /* 圓角 */
     font-family: monospace; /* 等寬字體 */
     color: #c7254e; /* 字體顏色 */
-    border: 1px solid #ddd; /* 邊框以增加可視性 */
+    border: 1px solid #ddd; /* 邊框 */
+    white-space: nowrap; /* 禁止換行 */
+    display: inline-block; /* 保證行內顯示 */
 }
 
 /* 改善代碼塊與行內代碼之間的區別 */
