@@ -197,7 +197,6 @@ article code {
     font-family: monospace;
     color: #c7254e;
     border: 1px solid #ddd;
-    white-space: pre-wrap; /* 保留空格與手動換行 */
     display: inline; /* 行內顯示 */
 }
 
